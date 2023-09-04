@@ -36,14 +36,15 @@ export function GradientPicker({
   className?: string;
 }) {
   const solids = [
-    "#E2E2E2",
-    "#ff75c3",
-    "#ffa647",
-    "#ffe83f",
-    "#9fff5b",
-    "#70e2ff",
-    "#cd93ff",
-    "#09203f",
+    "#09203f", // Dark Blue
+    "#E2E2E2", // Light Grey
+    "#ffe83f", // Yellow
+    "#9fff5b", // Light Green
+    "#70e2ff", // Light Blue
+    "#cd93ff", // Light Purple
+    "#ff75c3", // Light Pink
+    "#ffa647", // Orange
+
     "#FFD1DC", // Soft Pink
     "#E6E6FA", // Pale Lavender
     "#AEEEEE", // Baby Blue
@@ -54,6 +55,7 @@ export function GradientPicker({
     "#B2DFDB", // Pastel Green
     "#C8A2C8", // Lilac
     "#EEE8AA", // Pale Gold
+
     "#F0E68C", // Khaki
     "#FFB6C1", // Light Pink
     "#87CEEB", // Sky Blue
@@ -64,6 +66,7 @@ export function GradientPicker({
     "#F5DEB3", // Wheat
     "#98FB98", // Pale Green
     "#9370DB", // Medium Purple
+
     "#F5F5DC", // Beige
     "#FFE4B5", // Moccasin
     "#F0F8FF", // Alice Blue

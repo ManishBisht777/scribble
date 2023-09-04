@@ -4,27 +4,26 @@ import useDraw from "@/hooks/useDraw";
 
 type Props = {
   background: string;
+  strokeWidth: number[];
 };
 
-export default function Canvas({ background }: Props) {
+export default function Canvas({ background, strokeWidth }: Props) {
   const { canvasRef, onMouseDown } = useDraw(drawLine);
 
   function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
     const { x: currX, y: currY } = currentPoint;
-    const lineWidth = 5;
 
     let startPoint = prevPoint ?? currentPoint;
-    ctx.beginPath();
-    ctx.lineWidth = lineWidth;
+
+    ctx.lineWidth = strokeWidth[0];
     ctx.strokeStyle = background;
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+
+    ctx.beginPath();
     ctx.moveTo(startPoint.x, startPoint.y);
     ctx.lineTo(currX, currY);
     ctx.stroke();
-
-    ctx.fillStyle = background;
-    ctx.beginPath();
-    ctx.arc(startPoint.x, startPoint.y, 2, 0, 2 * Math.PI);
-    ctx.fill();
   }
 
   return (
