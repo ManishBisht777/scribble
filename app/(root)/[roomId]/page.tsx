@@ -2,6 +2,7 @@
 
 import Canvas from "@/components/canvas";
 import { GradientPicker } from "@/components/color-picker";
+import { useSocket } from "@/components/providers/socket-provider";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Eraser } from "lucide-react";
@@ -13,11 +14,18 @@ export default function page({}: Props) {
   const [background, setBackground] = useState("#B4D455");
   const [strokeWidth, setStrokeWidth] = useState<number[]>([3]);
 
+  const { isConnected } = useSocket();
+  console.log(isConnected);
   return (
     <div className="flex gap-4">
       <div className="w-48 h">
         <div className="h-80">
           <h1>Member List</h1>
+          {isConnected ? (
+            <p className="text-green-800">Socket Connected </p>
+          ) : (
+            <p className="text-red-700">Socket not connectted</p>
+          )}
           <ul>
             <li>Manish</li>
             <li>Manish</li>
