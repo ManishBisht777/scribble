@@ -2,11 +2,14 @@
 
 import Canvas from "@/components/canvas";
 import { GradientPicker } from "@/components/color-picker";
+import { useCanvasMember } from "@/components/providers/canvas-member";
 import { useSocket } from "@/components/providers/socket-provider";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { useToast } from "@/components/ui/use-toast";
+import { Notification, User } from "@/types/types";
 import { Eraser } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {};
 
@@ -14,8 +17,29 @@ export default function page({}: Props) {
   const [background, setBackground] = useState("#B4D455");
   const [strokeWidth, setStrokeWidth] = useState<number[]>([3]);
 
-  const { isConnected } = useSocket();
-  console.log(isConnected);
+  const { members, setMembers } = useCanvasMember();
+  const { isConnected, socket } = useSocket();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("update-members", (members: User[]) => {
+      setMembers(members);
+    });
+    socket.on("send-notification", ({ title, message }: Notification) => {
+      toast({
+        title,
+        description: message,
+      });
+    });
+
+    return () => {
+      socket.off("update-members");
+      socket.off("send-notification");
+    };
+  }, [toast, setMembers]);
+
   return (
     <div className="flex gap-4">
       <div className="w-48 h">
@@ -27,10 +51,10 @@ export default function page({}: Props) {
             <p className="text-red-700">Socket not connectted</p>
           )}
           <ul>
-            <li>Manish</li>
-            <li>Manish</li>
-            <li>Manish</li>
-            <li>Manish</li>
+            {members &&
+              members.map((member) => (
+                <li key={member.id}>{member.username}</li>
+              ))}
           </ul>
         </div>
         <p>Line color</p>

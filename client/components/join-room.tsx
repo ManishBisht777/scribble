@@ -17,6 +17,12 @@ import { JoinRoomSchema } from "@/lib/validations/room";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+import { useSocket } from "./providers/socket-provider";
+import { useEffect, useState } from "react";
+import { RoomJoinedData } from "@/types/types";
+import { useRouter } from "next/navigation";
+import { useCanvasMember } from "./providers/canvas-member";
+import { useToast } from "./ui/use-toast";
 
 interface JoinRoomProps {}
 
@@ -28,10 +34,44 @@ export default function JoinRoom({}: JoinRoomProps) {
       roomId: "",
     },
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  function onSubmit(values: z.infer<typeof JoinRoomSchema>) {
-    console.log(values);
+  const { socket } = useSocket();
+  const router = useRouter();
+  const { setMembers, setUser } = useCanvasMember();
+  const { toast } = useToast();
+
+  function onSubmit({ roomId, username }: z.infer<typeof JoinRoomSchema>) {
+    setIsLoading(true);
+    socket.emit("create-room", { roomId, username });
   }
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("room-joined", ({ user, roomId, members }: RoomJoinedData) => {
+      setUser(user);
+      setMembers(members);
+      router.replace(`/${roomId}`);
+    });
+
+    function handleErrorMessage({ message }: { message: string }) {
+      toast({
+        title: "Failed to join room!",
+        description: message,
+      });
+    }
+
+    socket.on("room-not-found", handleErrorMessage);
+
+    socket.on("invalid-data", handleErrorMessage);
+
+    return () => {
+      socket.off("room-joined");
+      socket.off("room-not-found");
+      socket.off("invalid-data", handleErrorMessage);
+    };
+  }, [socket]);
 
   return (
     <Dialog>

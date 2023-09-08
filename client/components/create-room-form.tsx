@@ -19,10 +19,10 @@ import CopyButton from "./copy-button";
 import { useSocket } from "./providers/socket-provider";
 import { useEffect, useState } from "react";
 import { Loader2, ShipIcon } from "lucide-react";
-import { RoomJoinedData } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useToast } from "./ui/use-toast";
 import { useCanvasMember } from "./providers/canvas-member";
+import { RoomJoinedData } from "@/types/types";
 
 interface CreateRoomProps {
   roomId: string;
@@ -44,12 +44,14 @@ export default function CreateRoomForm({ roomId }: CreateRoomProps) {
   });
 
   function onSubmit({ username }: z.infer<typeof CreateRoomSchema>) {
+    console.log(username, roomId);
     setIsLoading(true);
     socket.emit("create-room", { roomId, username });
   }
 
   useEffect(() => {
     if (!socket) return;
+
     socket.on("room-joined", ({ user, roomId, members }: RoomJoinedData) => {
       setUser(user);
       setMembers(members);
@@ -72,7 +74,7 @@ export default function CreateRoomForm({ roomId }: CreateRoomProps) {
       socket.off("room-not-found");
       socket.off("invalid-data", handleErrorMessage);
     };
-  }, [router, setUser, setMembers]);
+  }, [socket]);
 
   useEffect(() => {
     if (!socket) return;
