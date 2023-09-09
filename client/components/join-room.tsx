@@ -21,8 +21,9 @@ import { useSocket } from "./providers/socket-provider";
 import { useEffect, useState } from "react";
 import { RoomJoinedData } from "@/types/types";
 import { useRouter } from "next/navigation";
-import { useCanvasMember } from "./providers/canvas-member";
 import { useToast } from "./ui/use-toast";
+import { useMembersStore } from "@/stores/members-store";
+import { useUserStore } from "@/stores/user-store";
 
 interface JoinRoomProps {}
 
@@ -38,7 +39,8 @@ export default function JoinRoom({}: JoinRoomProps) {
 
   const { socket } = useSocket();
   const router = useRouter();
-  const { setMembers, setUser } = useCanvasMember();
+  const { setMembers } = useMembersStore();
+  const { setUser } = useUserStore();
   const { toast } = useToast();
 
   function onSubmit({ roomId, username }: z.infer<typeof JoinRoomSchema>) {

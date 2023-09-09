@@ -2,7 +2,6 @@ import { SocketProvider } from "@/components/providers/socket-provider";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { CanvasMemberProvider } from "@/components/providers/canvas-member";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SocketProvider>
-          <CanvasMemberProvider>{children}</CanvasMemberProvider>
-        </SocketProvider>
+        <SocketProvider>{children}</SocketProvider>
       </body>
     </html>
   );

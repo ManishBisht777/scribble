@@ -1,14 +1,14 @@
 "use client";
 
 import useDraw from "@/hooks/useDraw";
+import { useCanvasStore } from "@/stores/canvas-store";
 
-type Props = {
-  background: string;
-  strokeWidth: number[];
-};
+type Props = {};
 
-export default function Canvas({ background, strokeWidth }: Props) {
+export default function Canvas({}: Props) {
   const { canvasRef, onMouseDown } = useDraw(drawLine);
+
+  const { strokeColor, strokeWidth } = useCanvasStore();
 
   function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
     const { x: currX, y: currY } = currentPoint;
@@ -16,7 +16,7 @@ export default function Canvas({ background, strokeWidth }: Props) {
     let startPoint = prevPoint ?? currentPoint;
 
     ctx.lineWidth = strokeWidth[0];
-    ctx.strokeStyle = background;
+    ctx.strokeStyle = strokeColor;
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
 

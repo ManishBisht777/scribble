@@ -2,24 +2,24 @@
 
 import Canvas from "@/components/canvas";
 import { GradientPicker } from "@/components/color-picker";
-import { useCanvasMember } from "@/components/providers/canvas-member";
 import { useSocket } from "@/components/providers/socket-provider";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useToast } from "@/components/ui/use-toast";
+import { useCanvasStore } from "@/stores/canvas-store";
+import { useMembersStore } from "@/stores/members-store";
 import { Notification, User } from "@/types/types";
 import { Eraser } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 type Props = {};
 
 export default function page({}: Props) {
-  const [background, setBackground] = useState("#B4D455");
-  const [strokeWidth, setStrokeWidth] = useState<number[]>([3]);
-
-  const { members, setMembers } = useCanvasMember();
   const { isConnected, socket } = useSocket();
   const { toast } = useToast();
+  const { setStrokeColor, strokeColor, strokeWidth, setStrokeWidth } =
+    useCanvasStore();
+  const { members, setMembers } = useMembersStore();
 
   useEffect(() => {
     if (!socket) return;
@@ -58,11 +58,16 @@ export default function page({}: Props) {
           </ul>
         </div>
         <p>Line color</p>
-        <div style={{ background }} className="p-2 rounded-md mt-2">
+        <div
+          style={{
+            background: strokeColor,
+          }}
+          className="p-2 rounded-md mt-2"
+        >
           <GradientPicker
             className="w-full p-2"
-            background={background}
-            setBackground={setBackground}
+            background={strokeColor}
+            setBackground={setStrokeColor}
           />
         </div>
         <div className="flex flex-col gap-2 mt-4">
@@ -86,7 +91,7 @@ export default function page({}: Props) {
         </Button>
       </div>
       <div>
-        <Canvas background={background} strokeWidth={strokeWidth} />
+        <Canvas />
       </div>
       <div className="w-48">Chat screen</div>
     </div>
