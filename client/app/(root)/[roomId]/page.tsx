@@ -2,10 +2,10 @@
 
 import Canvas from "@/components/canvas";
 import { GradientPicker } from "@/components/color-picker";
-import { useSocket } from "@/components/providers/socket-provider";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useToast } from "@/components/ui/use-toast";
+import { socket } from "@/lib/sockets";
 import { useCanvasStore } from "@/stores/canvas-store";
 import { useMembersStore } from "@/stores/members-store";
 import { Notification, User } from "@/types/types";
@@ -15,7 +15,6 @@ import { useEffect } from "react";
 type Props = {};
 
 export default function page({}: Props) {
-  const { isConnected, socket } = useSocket();
   const { toast } = useToast();
   const { setStrokeColor, strokeColor, strokeWidth, setStrokeWidth } =
     useCanvasStore();
@@ -45,11 +44,6 @@ export default function page({}: Props) {
       <div className="w-48 h">
         <div className="h-80">
           <h1>Member List</h1>
-          {isConnected ? (
-            <p className="text-green-800">Socket Connected </p>
-          ) : (
-            <p className="text-red-700">Socket not connectted</p>
-          )}
           <ul>
             {members &&
               members.map((member) => (

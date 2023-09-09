@@ -2,7 +2,7 @@ import { Server, type Socket } from "socket.io";
 import http from "http";
 import cors from "cors";
 import express from "express";
-import { JoinRoomData } from "./types";
+import { DrawOptions, JoinRoomData } from "./types";
 import { validateJoinRoomData } from "./lib/validations/room";
 import { joinRoom } from "./lib/room";
 
@@ -45,6 +45,15 @@ io.on("connection", (socket: Socket) => {
         "Oops! The Room ID you entered doesn't exist or hasn't been created yet.",
     });
   });
+
+  socket.on("send-canvas-state", () => {});
+
+  socket.on(
+    "draw",
+    ({ drawOptions, roomId }: { drawOptions: DrawOptions; roomId: string }) => {
+      socket.to(roomId).emit("update-canvas-state", drawOptions);
+    }
+  );
 
   socket.on("disconnect", () => {
     console.log("user disconnected");

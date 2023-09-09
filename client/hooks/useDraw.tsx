@@ -1,5 +1,6 @@
 "use client";
 
+import { Draw, Point } from "@/types/canvas";
 import { useEffect, useRef, useState } from "react";
 
 export default function useDraw(

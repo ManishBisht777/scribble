@@ -17,13 +17,13 @@ import { JoinRoomSchema } from "@/lib/validations/room";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
-import { useSocket } from "./providers/socket-provider";
 import { useEffect, useState } from "react";
 import { RoomJoinedData } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useToast } from "./ui/use-toast";
 import { useMembersStore } from "@/stores/members-store";
 import { useUserStore } from "@/stores/user-store";
+import { socket } from "@/lib/sockets";
 
 interface JoinRoomProps {}
 
@@ -37,7 +37,6 @@ export default function JoinRoom({}: JoinRoomProps) {
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { socket } = useSocket();
   const router = useRouter();
   const { setMembers } = useMembersStore();
   const { setUser } = useUserStore();

@@ -16,7 +16,6 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import CopyButton from "./copy-button";
-import { useSocket } from "./providers/socket-provider";
 import { useEffect, useState } from "react";
 import { Loader2, ShipIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -24,6 +23,7 @@ import { useToast } from "./ui/use-toast";
 import { RoomJoinedData } from "@/types/types";
 import { useMembersStore } from "@/stores/members-store";
 import { useUserStore } from "@/stores/user-store";
+import { socket } from "@/lib/sockets";
 
 interface CreateRoomProps {
   roomId: string;
@@ -35,7 +35,6 @@ export default function CreateRoomForm({ roomId }: CreateRoomProps) {
 
   const { setMembers } = useMembersStore();
   const { setUser } = useUserStore();
-  const { socket } = useSocket();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof CreateRoomSchema>>({
