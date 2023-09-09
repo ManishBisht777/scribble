@@ -44,7 +44,6 @@ export function GradientPicker({
     "#cd93ff", // Light Purple
     "#ff75c3", // Light Pink
     "#ffa647", // Orange
-
     "#FFD1DC", // Soft Pink
     "#E6E6FA", // Pale Lavender
     "#AEEEEE", // Baby Blue
@@ -55,18 +54,14 @@ export function GradientPicker({
     "#B2DFDB", // Pastel Green
     "#C8A2C8", // Lilac
     "#EEE8AA", // Pale Gold
-
     "#F0E68C", // Khaki
-    "#FFB6C1", // Light Pink
     "#87CEEB", // Sky Blue
     "#FFA07A", // Light Salmon
     "#B0E0E6", // Powder Blue
     "#FF6347", // Tomato
     "#DDA0DD", // Plum
     "#F5DEB3", // Wheat
-    "#98FB98", // Pale Green
     "#9370DB", // Medium Purple
-
     "#F5F5DC", // Beige
     "#FFE4B5", // Moccasin
     "#F0F8FF", // Alice Blue

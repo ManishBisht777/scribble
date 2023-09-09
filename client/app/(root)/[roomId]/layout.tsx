@@ -5,10 +5,5 @@ interface RoomLayoutProps {
 }
 
 export default function RoomLayout({ children }: RoomLayoutProps) {
-  return (
-    <main className="container">
-      <h1>header</h1>
-      {children}
-    </main>
-  );
+  return <main className="container flex justify-center ">{children}</main>;
 }

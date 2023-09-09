@@ -4,8 +4,9 @@ import useDraw from "@/hooks/useDraw";
 import { socket } from "@/lib/sockets";
 import { draw, drawWithDataURL } from "@/lib/utils";
 import { useCanvasStore } from "@/stores/canvas-store";
+import { useUserStore } from "@/stores/user-store";
 import { Draw, DrawOptions } from "@/types/canvas";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 type Props = {};
@@ -15,6 +16,10 @@ export default function Canvas({}: Props) {
 
   const { canvasRef, onMouseDown } = useDraw(onDraw);
   const { strokeColor, strokeWidth } = useCanvasStore();
+  const { user } = useUserStore();
+  const router = useRouter();
+
+  if (!user) router.push("/");
 
   function onDraw({ ctx, currentPoint, prevPoint }: Draw) {
     const drawOptions = {
@@ -62,9 +67,9 @@ export default function Canvas({}: Props) {
     <canvas
       onMouseDown={onMouseDown}
       ref={canvasRef}
-      width="900"
+      width="800"
       height="700"
-      className="border rounded-sm"
+      className="border rounded-lg"
     />
   );
 }

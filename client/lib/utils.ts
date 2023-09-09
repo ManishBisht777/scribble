@@ -6,6 +6,26 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function randomCategoryEmoji() {
+  const categories: any = {
+    person: ["👨", "👩", "👴", "👵", "🧑", "🧒", "👶"],
+    animal: ["🐶", "🐱", "🐰", "🦁", "🐢", "🐙", "🦄"],
+    food: ["🍕", "🍔", "🍩", "🍦", "🍓", "🍟", "🍝"],
+    transportation: ["🚗", "🚲", "🚁", "🛳️", "🚆", "✈️", "🚀"],
+    nature: ["🌳", "🌻", "🌊", "🌄", "🌵", "🌸", "🌈"],
+    fantasy: ["🧚", "🧞", "🐉", "🧜", "🔮", "🚪", "🏰"],
+  };
+
+  const categoryKeys = Object.keys(categories);
+  const randomCategory =
+    categoryKeys[Math.floor(Math.random() * categoryKeys.length)];
+  const emojisForCategory = categories[randomCategory];
+  const randomEmoji =
+    emojisForCategory[Math.floor(Math.random() * emojisForCategory.length)];
+
+  return randomEmoji;
+}
+
 export function draw({
   ctx,
   currentPoint,
