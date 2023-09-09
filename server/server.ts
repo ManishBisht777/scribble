@@ -4,7 +4,8 @@ import cors from "cors";
 import express from "express";
 import { DrawOptions, JoinRoomData } from "./types";
 import { validateJoinRoomData } from "./lib/validations/room";
-import { joinRoom } from "./lib/room";
+import { joinRoom, leaveRoom } from "./lib/room";
+import { getRoomMembers } from "./lib/users";
 
 const app = express();
 app.use(cors());
@@ -46,7 +47,29 @@ io.on("connection", (socket: Socket) => {
     });
   });
 
-  socket.on("send-canvas-state", () => {});
+  socket.on("client-ready", (roomId: string) => {
+    const members = getRoomMembers(roomId);
+    // Don't need to request the room's canvas state if a user is the first member
+    if (members.length === 1) return socket.emit("client-loaded");
+
+    const adminMember = members[0];
+
+    if (!adminMember) return;
+
+    socket.to(adminMember.id).emit("get-canvas-state");
+  });
+
+  socket.on(
+    "send-canvas-state",
+    ({ canvasState, roomId }: { canvasState: string; roomId: string }) => {
+      const members = getRoomMembers(roomId);
+      const lastMember = members[members.length - 1];
+
+      if (!lastMember) return;
+
+      socket.to(lastMember.id).emit("canvas-state-from-server", canvasState);
+    }
+  );
 
   socket.on(
     "draw",
@@ -55,8 +78,12 @@ io.on("connection", (socket: Socket) => {
     }
   );
 
+  socket.on("leave-room", () => {
+    leaveRoom(socket);
+  });
+
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+    leaveRoom(socket);
   });
 });
 
