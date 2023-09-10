@@ -2,9 +2,6 @@ import Canvas from "@/components/canvas";
 import CanvasTools from "@/components/canvas-tools";
 import Chat from "@/components/chat";
 import MemberList from "@/components/member-list";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Send } from "lucide-react";
 
 type Props = {};
 

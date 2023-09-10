@@ -13,12 +13,17 @@ import {
   Trash2,
 } from "lucide-react";
 import { useCanvasStore } from "@/stores/canvas-store";
+import { socket } from "@/lib/sockets";
+import { useParams } from "next/navigation";
+import { clearCanvas } from "@/lib/utils";
 
 type Props = {};
 
 export default function CanvasTools({}: Props) {
   const { setStrokeColor, strokeColor, strokeWidth, setStrokeWidth } =
     useCanvasStore();
+
+  const { roomId } = useParams();
 
   return (
     <div>
@@ -65,7 +70,10 @@ export default function CanvasTools({}: Props) {
         </Button>
       </div>
       <div className="flex mt-4 justify-between">
-        <Button className="px-6">
+        <Button
+          className="px-6"
+          onClick={() => clearCanvas(roomId as string, socket)}
+        >
           <Trash2 className="w-4 h-4 mr-2" />
           Clear Canvas
         </Button>

@@ -71,6 +71,10 @@ io.on("connection", (socket: Socket) => {
     }
   );
 
+  socket.on("clear-canvas", (roomId: string) => {
+    socket.to(roomId).emit("clear-canvas");
+  });
+
   socket.on(
     "draw",
     ({ drawOptions, roomId }: { drawOptions: DrawOptions; roomId: string }) => {

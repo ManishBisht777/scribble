@@ -2,7 +2,7 @@
 
 import useDraw from "@/hooks/useDraw";
 import { socket } from "@/lib/sockets";
-import { draw, drawWithDataURL } from "@/lib/utils";
+import { clearCanvas, draw, drawWithDataURL } from "@/lib/utils";
 import { useCanvasStore } from "@/stores/canvas-store";
 import { useUserStore } from "@/stores/user-store";
 import { Draw, DrawOptions } from "@/types/canvas";
@@ -36,7 +36,7 @@ export default function Canvas({}: Props) {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
-    if (!canvas || !ctx) return;
+    if (!canvas || !ctx || !roomId) return;
 
     socket.emit("client-ready", roomId);
 
@@ -58,13 +58,21 @@ export default function Canvas({}: Props) {
       draw({ ...drawOptions, ctx });
     });
 
+    socket.on("clear-canvas", () => {
+      if (!ctx || !canvas) return;
+      clearCanvas(roomId as string, socket);
+    });
+
     return () => {
+      socket.off("get-canvas-state");
+      socket.off("canvas-state-from-server");
       socket.off("update-canvas-state");
     };
   }, [canvasRef, roomId]);
 
   return (
     <canvas
+      id="canvas"
       onMouseDown={onMouseDown}
       ref={canvasRef}
       width="800"

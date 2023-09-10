@@ -1,5 +1,6 @@
 import { DrawOptions } from "@/types/canvas";
 import { type ClassValue, clsx } from "clsx";
+import { Socket } from "socket.io-client";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -57,4 +58,15 @@ export function drawWithDataURL(
     ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
     ctx.drawImage(img, 0, 0);
   };
+}
+
+export function clearCanvas(roomId: string, socket: Socket) {
+  const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  socket.emit("clear-canvas", roomId);
 }
