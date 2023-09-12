@@ -32,10 +32,11 @@ export function draw({
   prevPoint,
   strokeColor,
   strokeWidth,
+  isEraser,
 }: DrawOptions) {
   const startPoint = prevPoint ?? currentPoint;
 
-  ctx.strokeStyle = strokeColor;
+  ctx.strokeStyle = isEraser ? "#ffffff" : strokeColor;
   ctx.lineWidth = strokeWidth[0];
   ctx.lineJoin = "round";
   ctx.lineCap = "round";

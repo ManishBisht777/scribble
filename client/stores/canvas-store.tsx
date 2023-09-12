@@ -5,6 +5,8 @@ interface CanvasState {
   strokeWidth: number[];
   setStrokeColor: (strokeColor: string) => void;
   setStrokeWidth: (strokeWidth: number[]) => void;
+  isEraser: boolean;
+  setIsEraser: (isEraser: boolean) => void;
 }
 
 export const useCanvasStore = create<CanvasState>((set) => ({
@@ -12,4 +14,6 @@ export const useCanvasStore = create<CanvasState>((set) => ({
   strokeWidth: [3],
   setStrokeColor: (strokeColor) => set({ strokeColor }),
   setStrokeWidth: (strokeWidth) => set({ strokeWidth }),
+  isEraser: false,
+  setIsEraser: (isEraser) => set({ isEraser }),
 }));

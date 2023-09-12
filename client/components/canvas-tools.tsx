@@ -21,8 +21,14 @@ import SaveButton from "./save-sketch";
 type Props = {};
 
 export default function CanvasTools({}: Props) {
-  const { setStrokeColor, strokeColor, strokeWidth, setStrokeWidth } =
-    useCanvasStore();
+  const {
+    setStrokeColor,
+    strokeColor,
+    strokeWidth,
+    setStrokeWidth,
+    isEraser,
+    setIsEraser,
+  } = useCanvasStore();
 
   const { roomId } = useParams();
 
@@ -65,10 +71,20 @@ export default function CanvasTools({}: Props) {
         />
       </div>
       <div className="flex gap-3 mt-2">
-        <Button size="icon" variant="outline" className="mt-4">
+        <Button
+          onClick={() => setIsEraser(true)}
+          size="icon"
+          variant={isEraser ? "secondary" : "outline"}
+          className="mt-4"
+        >
           <Eraser className="text-slate-600" />
         </Button>
-        <Button size="icon" variant="outline" className="mt-4">
+        <Button
+          onClick={() => setIsEraser(false)}
+          size="icon"
+          variant={!isEraser ? "secondary" : "outline"}
+          className="mt-4"
+        >
           <Pen className="text-slate-600" />
         </Button>
         <SaveButton />

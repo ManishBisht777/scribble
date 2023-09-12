@@ -12,4 +12,5 @@ export interface Point {
 export interface DrawOptions extends Draw {
   strokeColor: string;
   strokeWidth: number[];
+  isEraser: boolean;
 }

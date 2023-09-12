@@ -15,7 +15,7 @@ export default function Canvas({}: Props) {
   const { roomId } = useParams();
 
   const { canvasRef, onMouseDown } = useDraw(onDraw);
-  const { strokeColor, strokeWidth } = useCanvasStore();
+  const { strokeColor, strokeWidth, isEraser } = useCanvasStore();
   const { user } = useUserStore();
   const router = useRouter();
 
@@ -28,6 +28,7 @@ export default function Canvas({}: Props) {
       prevPoint,
       strokeColor,
       strokeWidth,
+      isEraser,
     };
     draw(drawOptions);
     socket.emit("draw", { drawOptions, roomId });
