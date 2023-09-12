@@ -71,13 +71,25 @@ export default function Canvas({}: Props) {
     };
   }, [canvasRef, roomId]);
 
+  useEffect(() => {
+    if (typeof window === "undefined" || !canvasRef.current) return;
+
+    if (window.innerWidth < 768) {
+      canvasRef.current.width = window.innerWidth;
+      canvasRef.current.height = window.innerHeight;
+    } else {
+      canvasRef.current.width = 800;
+      canvasRef.current.height = 700;
+    }
+  }, []);
+
   return (
     <canvas
       id="canvas"
       onMouseDown={onMouseDown}
       ref={canvasRef}
-      width="800"
-      height="700"
+      width="0"
+      height="0"
       className="border rounded-lg"
     />
   );

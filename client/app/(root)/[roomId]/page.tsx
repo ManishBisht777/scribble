@@ -7,7 +7,7 @@ type Props = {};
 
 export default function page({}: Props) {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 flex-col md:flex-row">
       <div className="md:my-6 rounded-md border p-4 w-60">
         <MemberList />
         <CanvasTools />
