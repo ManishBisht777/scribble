@@ -16,6 +16,7 @@ import { useCanvasStore } from "@/stores/canvas-store";
 import { socket } from "@/lib/sockets";
 import { useParams } from "next/navigation";
 import { clearCanvas } from "@/lib/utils";
+import SaveButton from "./save-sketch";
 
 type Props = {};
 
@@ -70,9 +71,7 @@ export default function CanvasTools({}: Props) {
         <Button size="icon" variant="outline" className="mt-4">
           <Pen className="text-slate-600" />
         </Button>
-        <Button size="icon" variant="outline" className="mt-4">
-          <Camera className="text-slate-600" />
-        </Button>
+        <SaveButton />
         <Button size="icon" variant="outline" className="mt-4">
           <PaintBucket className="text-slate-600" />
         </Button>
