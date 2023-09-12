@@ -60,13 +60,14 @@ export default function Canvas({}: Props) {
 
     socket.on("clear-canvas", () => {
       if (!ctx || !canvas) return;
-      clearCanvas(roomId as string, socket);
+      clearCanvas();
     });
 
     return () => {
       socket.off("get-canvas-state");
       socket.off("canvas-state-from-server");
       socket.off("update-canvas-state");
+      socket.off("clear-canvas");
     };
   }, [canvasRef, roomId]);
 

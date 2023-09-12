@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { GradientPicker } from "./color-picker";
 import { Slider } from "./ui/slider";
 import { Button } from "./ui/button";
@@ -24,6 +24,14 @@ export default function CanvasTools({}: Props) {
     useCanvasStore();
 
   const { roomId } = useParams();
+
+  useEffect(() => {
+    socket.on("clear-canvas", clearCanvas);
+
+    return () => {
+      socket.off("clear-canvas");
+    };
+  }, [clearCanvas]);
 
   return (
     <div>
@@ -72,7 +80,10 @@ export default function CanvasTools({}: Props) {
       <div className="flex mt-4 justify-between">
         <Button
           className="px-6"
-          onClick={() => clearCanvas(roomId as string, socket)}
+          onClick={() => {
+            socket.emit("clear-canvas", roomId);
+            clearCanvas();
+          }}
         >
           <Trash2 className="w-4 h-4 mr-2" />
           Clear Canvas
