@@ -6,13 +6,11 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import { JoinRoomSchema } from "@/lib/validations/room";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -24,6 +22,8 @@ import { useToast } from "./ui/use-toast";
 import { useMembersStore } from "@/stores/members-store";
 import { useUserStore } from "@/stores/user-store";
 import { socket } from "@/lib/sockets";
+import { Loader2 } from "lucide-react";
+import useAvatar from "@/hooks/useAvatar";
 
 interface JoinRoomProps {}
 
@@ -36,6 +36,9 @@ export default function JoinRoom({}: JoinRoomProps) {
     },
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const { avatar } = useAvatar();
+
+  // console.log(avatar);
 
   const router = useRouter();
   const { setMembers } = useMembersStore();
@@ -89,6 +92,8 @@ export default function JoinRoom({}: JoinRoomProps) {
           </DialogDescription>
         </DialogHeader>
 
+        {/* {avatar && <img src={avatar} alt="Avatar" />} */}
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -119,6 +124,7 @@ export default function JoinRoom({}: JoinRoomProps) {
             />
 
             <Button className="w-full" type="submit">
+              {isLoading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
               Join Room
             </Button>
           </form>

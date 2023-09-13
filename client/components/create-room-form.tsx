@@ -25,6 +25,15 @@ import { useMembersStore } from "@/stores/members-store";
 import { useUserStore } from "@/stores/user-store";
 import { socket } from "@/lib/sockets";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Image from "next/image";
+
 interface CreateRoomProps {
   roomId: string;
 }
@@ -41,14 +50,22 @@ export default function CreateRoomForm({ roomId }: CreateRoomProps) {
     resolver: zodResolver(CreateRoomSchema),
     defaultValues: {
       username: "",
+      avatarStyle: "avataaars",
     },
   });
 
-  function onSubmit({ username }: z.infer<typeof CreateRoomSchema>) {
-    console.log(username, roomId);
+  function onSubmit({
+    username,
+    avatarStyle,
+  }: z.infer<typeof CreateRoomSchema>) {
+    console.log(username, roomId, avatarStyle);
     setIsLoading(true);
-    socket.emit("create-room", { roomId, username });
+    // socket.emit("create-room", { roomId, username });
   }
+
+  let avatarUrl = `https://api.dicebear.com/7.x/${form.getValues(
+    "avatarStyle"
+  )}/svg?seed=${form.getValues("username")}`;
 
   useEffect(() => {
     if (!socket) return;
@@ -95,6 +112,44 @@ export default function CreateRoomForm({ roomId }: CreateRoomProps) {
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input placeholder="Username" {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex justify-center items-center">
+          <img
+            src={avatarUrl}
+            alt="user avatar"
+            className="w-24 h-24 rounded-full"
+          />
+        </div>
+        <FormField
+          control={form.control}
+          name="avatarStyle"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Avatar Style</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Avatar Style" />
+                  </SelectTrigger>
+                  <SelectContent className="capitalize">
+                    <SelectItem value="avataaars">avataaars</SelectItem>
+                    <SelectItem value="micah">micah</SelectItem>
+                    <SelectItem value="adventurer">adventurer</SelectItem>
+                    <SelectItem value="adventurer-neutral">
+                      adventurer-neutral
+                    </SelectItem>
+                    <SelectItem value="big-smile">big-smile</SelectItem>
+                    <SelectItem value="open-peeps">open-peeps</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
 
               <FormMessage />

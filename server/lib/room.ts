@@ -10,7 +10,6 @@ export function joinRoom(socket: Socket, roomId: string, username: string) {
   addUser({ ...user, roomId });
   const members = getRoomMembers(roomId);
 
-  console.log(members);
   socket.emit("room-joined", { user, roomId, members });
   socket.to(roomId).emit("update-members", members);
   socket.to(roomId).emit("send-notification", {

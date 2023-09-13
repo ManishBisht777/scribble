@@ -82,6 +82,10 @@ io.on("connection", (socket: Socket) => {
     }
   );
 
+  socket.on("send-message", (data: any) => {
+    socket.to(data.roomId).emit("new-message", data.message);
+  });
+
   socket.on("leave-room", () => {
     leaveRoom(socket);
   });
