@@ -13,3 +13,8 @@ export interface Notification {
   title: string;
   message: string;
 }
+
+export interface Message {
+  user: User;
+  message: string;
+}

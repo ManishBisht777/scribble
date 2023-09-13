@@ -7,7 +7,7 @@ type Props = {};
 
 export default function page({}: Props) {
   return (
-    <div className="flex gap-4 flex-col md:flex-row">
+    <div className="flex gap-4 flex-col md:flex-row md:h-screen">
       <div className="md:my-6 rounded-md border p-4 w-60">
         <MemberList />
         <CanvasTools />
@@ -15,7 +15,7 @@ export default function page({}: Props) {
       <div className="h-screen flex justify-center items-center">
         <Canvas />
       </div>
-      <div className="rounded-md w-60 p-4 md:my-6 flex flex-col justify-between border">
+      <div className="rounded-md w-60 p-4 flex md:my-6 flex-col justify-between border">
         <Chat />
       </div>
     </div>
