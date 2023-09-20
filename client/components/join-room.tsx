@@ -23,7 +23,7 @@ import { useMembersStore } from "@/stores/members-store";
 import { useUserStore } from "@/stores/user-store";
 import { socket } from "@/lib/sockets";
 import { Loader2 } from "lucide-react";
-import useAvatar from "@/hooks/useAvatar";
+// import useAvatar from "@/hooks/useAvatar";
 
 interface JoinRoomProps {}
 
