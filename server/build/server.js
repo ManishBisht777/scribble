@@ -75,6 +75,6 @@ io.on("connection", (socket) => {
         (0, room_2.leaveRoom)(socket);
     });
 });
-server.listen(3001, () => {
+server.listen(3001, "0.0.0.0", () => {
     console.log("Server is running on port 3001");
 });

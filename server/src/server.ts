@@ -95,6 +95,10 @@ io.on("connection", (socket: Socket) => {
   });
 });
 
+app.get("/", (_, res) => {
+  res.send("Hello World!");
+});
+
 server.listen(3001, "0.0.0.0", () => {
   console.log("Server is running on port 3001");
 });
