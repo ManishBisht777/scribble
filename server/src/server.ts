@@ -27,18 +27,18 @@ io.on("connection", (socket: Socket) => {
     const validatedData = validateJoinRoomData(socket, joinRoomData);
 
     if (!validatedData) return;
-    const { roomId, username } = validatedData;
+    const { roomId, username, avatarUrl } = validatedData;
 
-    joinRoom(socket, roomId, username);
+    joinRoom(socket, roomId, username, avatarUrl);
   });
 
   socket.on("join-room", (joinRoomData: JoinRoomData) => {
     const validatedData = validateJoinRoomData(socket, joinRoomData);
     if (!validatedData) return;
-    const { roomId, username } = validatedData;
+    const { roomId, username, avatarUrl } = validatedData;
 
     if (isRoomCreated(roomId)) {
-      return joinRoom(socket, roomId, username);
+      return joinRoom(socket, roomId, username, avatarUrl);
     }
 
     socket.emit("room-not-found", {

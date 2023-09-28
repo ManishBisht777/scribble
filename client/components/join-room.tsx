@@ -14,7 +14,14 @@ import { Input } from "./ui/input";
 import { JoinRoomSchema } from "@/lib/validations/room";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
 import { useEffect, useState } from "react";
 import { RoomJoinedData } from "@/types/types";
 import { useRouter } from "next/navigation";
@@ -24,6 +31,13 @@ import { useUserStore } from "@/stores/user-store";
 import { socket } from "@/lib/sockets";
 import { Loader2 } from "lucide-react";
 // import useAvatar from "@/hooks/useAvatar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface JoinRoomProps {}
 
@@ -33,6 +47,7 @@ export default function JoinRoom({}: JoinRoomProps) {
     defaultValues: {
       username: "",
       roomId: "",
+      avatarStyle: "avataaars",
     },
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,9 +60,13 @@ export default function JoinRoom({}: JoinRoomProps) {
   const { setUser } = useUserStore();
   const { toast } = useToast();
 
+  let avatarUrl = `https://api.dicebear.com/7.x/${form.getValues(
+    "avatarStyle"
+  )}/svg?seed=${form.getValues("username")}`;
+
   function onSubmit({ roomId, username }: z.infer<typeof JoinRoomSchema>) {
     setIsLoading(true);
-    socket.emit("create-room", { roomId, username });
+    socket.emit("join-room", { roomId, username, avatarUrl });
   }
 
   useEffect(() => {
@@ -103,6 +122,38 @@ export default function JoinRoom({}: JoinRoomProps) {
                 <FormItem>
                   <FormControl>
                     <Input placeholder="Username" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex justify-center items-center">
+              <img
+                src={avatarUrl}
+                alt="user avatar"
+                className="w-24 h-24 rounded-full"
+              />
+            </div>
+            <FormField
+              control={form.control}
+              name="avatarStyle"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Avatar Style</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Avatar Style" />
+                      </SelectTrigger>
+                      <SelectContent className="capitalize">
+                        <SelectItem value="avataaars">avataaars</SelectItem>
+                        <SelectItem value="micah">micah</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
 
                   <FormMessage />

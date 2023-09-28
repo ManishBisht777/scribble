@@ -7,7 +7,7 @@ const getUser = (userId: string) => users.find((user) => user.id === userId);
 const getRoomMembers = (roomId: string) =>
   users
     .filter((user) => user.roomId === roomId)
-    .map(({ id, username }) => ({ id, username }));
+    .map(({ id, username, avatarUrl }) => ({ id, username, avatarUrl }));
 
 const addUser = (user: User) => users.push(user);
 

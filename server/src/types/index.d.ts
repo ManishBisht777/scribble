@@ -1,12 +1,14 @@
 export interface JoinRoomData {
   roomId: string;
   username: string;
+  avatarUrl: string;
 }
 
 export interface User {
   id: string;
   username: string;
   roomId: string;
+  avatarUrl: string;
 }
 
 export interface Point {

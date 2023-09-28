@@ -54,18 +54,17 @@ export default function CreateRoomForm({ roomId }: CreateRoomProps) {
     },
   });
 
+  let avatarUrl = `https://api.dicebear.com/7.x/${form.getValues(
+    "avatarStyle"
+  )}/svg?seed=${form.getValues("username")}`;
+
   function onSubmit({
     username,
     avatarStyle,
   }: z.infer<typeof CreateRoomSchema>) {
-    console.log(username, roomId, avatarStyle);
     setIsLoading(true);
-    socket.emit("create-room", { roomId, username });
+    socket.emit("create-room", { roomId, username, avatarUrl });
   }
-
-  let avatarUrl = `https://api.dicebear.com/7.x/${form.getValues(
-    "avatarStyle"
-  )}/svg?seed=${form.getValues("username")}`;
 
   useEffect(() => {
     if (!socket) return;
@@ -73,7 +72,7 @@ export default function CreateRoomForm({ roomId }: CreateRoomProps) {
     socket.on("room-joined", ({ user, roomId, members }: RoomJoinedData) => {
       setUser(user);
       setMembers(members);
-      router.replace(`/${roomId}`);
+      router.push(`/${roomId}`);
     });
 
     function handleErrorMessage({ message }: { message: string }) {
@@ -118,7 +117,7 @@ export default function CreateRoomForm({ roomId }: CreateRoomProps) {
             </FormItem>
           )}
         />
-        {/* <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center">
           <img
             src={avatarUrl}
             alt="user avatar"
@@ -142,12 +141,6 @@ export default function CreateRoomForm({ roomId }: CreateRoomProps) {
                   <SelectContent className="capitalize">
                     <SelectItem value="avataaars">avataaars</SelectItem>
                     <SelectItem value="micah">micah</SelectItem>
-                    <SelectItem value="adventurer">adventurer</SelectItem>
-                    <SelectItem value="adventurer-neutral">
-                      adventurer-neutral
-                    </SelectItem>
-                    <SelectItem value="big-smile">big-smile</SelectItem>
-                    <SelectItem value="open-peeps">open-peeps</SelectItem>
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -155,7 +148,7 @@ export default function CreateRoomForm({ roomId }: CreateRoomProps) {
               <FormMessage />
             </FormItem>
           )}
-        /> */}
+        />
         <div>
           <p className="mb-2 text-sm font-medium">Room ID</p>
           <div className="flex h-10 w-full items-center justify-between rounded-md border bg-background px-3 py-2 text-sm text-muted-foreground">

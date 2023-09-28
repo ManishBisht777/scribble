@@ -1,11 +1,17 @@
 import { Socket } from "socket.io";
 import { addUser, getRoomMembers, getUser, removeUser } from "./users";
 
-export function joinRoom(socket: Socket, roomId: string, username: string) {
+export function joinRoom(
+  socket: Socket,
+  roomId: string,
+  username: string,
+  avatarUrl: string
+) {
   socket.join(roomId);
   const user = {
     id: socket.id,
     username,
+    avatarUrl,
   };
   addUser({ ...user, roomId });
   const members = getRoomMembers(roomId);

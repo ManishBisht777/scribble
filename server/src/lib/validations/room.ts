@@ -5,6 +5,7 @@ import z from "zod";
 export const joinRoomSchema = z.object({
   username: z.string().nonempty(),
   roomId: z.string().length(10, "Room ID must contain exactly 10 characters"),
+  avatarUrl: z.string().url(),
 });
 
 export function validateJoinRoomData(

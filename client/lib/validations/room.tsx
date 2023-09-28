@@ -8,4 +8,5 @@ export const CreateRoomSchema = z.object({
 export const JoinRoomSchema = z.object({
   username: z.string().nonempty(),
   roomId: z.string().length(10),
+  avatarStyle: z.string().nonempty(),
 });

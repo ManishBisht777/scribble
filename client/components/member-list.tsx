@@ -6,6 +6,7 @@ import { useMembersStore } from "@/stores/members-store";
 import { socket } from "@/lib/sockets";
 import { Notification, User } from "@/types/types";
 import { randomCategoryEmoji } from "@/lib/utils";
+import Image from "next/image";
 
 type Props = {};
 
@@ -33,6 +34,8 @@ export default function MemberList({}: Props) {
     };
   }, [toast, setMembers]);
 
+  console.log(members);
+
   return (
     <div className="h-80">
       <h1 className="text-center text-2xl font-bold text-slate-700 underline underline-offset-4 decoration-wavy decoration-cyan-400">
@@ -42,7 +45,13 @@ export default function MemberList({}: Props) {
         {members &&
           members.map((member) => (
             <div key={member.id} className="flex items-center">
-              <span className="text-3xl">{randomCategoryEmoji()}</span>
+              <img
+                src={member.avatarUrl}
+                width={50}
+                height={50}
+                className="rounded-full"
+                alt={member.username}
+              />
               <p className="text-slate-700">{member.username}</p>
             </div>
           ))}
